@@ -5,7 +5,23 @@
 		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}"
 	},
 	"builders": [{
-		**YOUR CODE HERE**
+		"type": "azure-arm",
+
+		"client_id": "4c9e49ed-5126-4835-a7df-814a9cd4ebdb",
+		"client_secret": "qKKSgdlsDof1KMw18RfwJpmCIT70hqi.8M",
+		"tenant_id": "dbe40337-7a36-4142-8c42-ba9cc842da11",
+		"subscription_id": "de14da4d-9ece-4b39-999b-eb57d857a39b",
+
+		"os_type": "Linux",
+		"image_publisher": "Canonical",
+		"image_offer": "UbuntuServer",
+		"image_sku": "18.04-LTS",
+	 
+		"managed_image_resource_group_name": "duongnq9-project1-devops-rg",
+		"managed_image_name": "myPackerImage",
+	 
+		"build_resource_group_name": "duongnq9-project1-devops-rg",
+		"vm_size": "Standard_B1s"
 	}],
 	"provisioners": [{
 		"inline": [
