@@ -1,6 +1,6 @@
 variable "prefix" {
   description = "The prefix which should be used for all resources in this example"
-  default = "duongnq9-project1"
+  default = "duongnq9-project1-devops"
 }
 
 variable "location" {
@@ -16,4 +16,9 @@ variable "username" {
 variable "password" {
   description = "Enter Password"
   default = "Fsoft@12345678"
+}
+
+variable "NumberOfVM" {
+  description = "Number of virtual machines"
+  default = 3
 }
