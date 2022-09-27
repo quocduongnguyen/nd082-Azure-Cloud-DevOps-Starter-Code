@@ -25,13 +25,13 @@ resource "azurerm_network_security_group" "main" {
 }
 
 resource "azurerm_network_interface" "main" {
-  count = "${var.NumberOfVM}"
+  count               = "${var.NumberOfVM > 1 && var.NumberOfVM < 6 ? var.NumberOfVM : 2}"
   name                = "${var.prefix}-nic${count.index}"
   resource_group_name = "${var.prefix}-rg"
   location            = var.location
 
   ip_configuration {
-    name                          = "internal"
+    name                          = "internal${count.index}"
     subnet_id                     = azurerm_subnet.internal.id
     private_ip_address_allocation = "Dynamic"
   }
@@ -91,9 +91,9 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "main" {
-  count = "${var.NumberOfVM}"
-  network_interface_id    = azurerm_network_interface.main.id
-  ip_configuration_name   = "internal"
+  count = "${var.NumberOfVM > 1 && var.NumberOfVM < 6 ? var.NumberOfVM : 2}"
+  network_interface_id    = azurerm_network_interface.main[count.index].id
+  ip_configuration_name   = "internal${count.index}"
   backend_address_pool_id = azurerm_lb_backend_address_pool.main.id
 }
 
@@ -117,13 +117,13 @@ output "image_id" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  count = "${var.NumberOfVM}"
+  count                           = "${var.NumberOfVM > 1 && var.NumberOfVM < 6 ? var.NumberOfVM : 2}"
   name                            = "${var.prefix}-vm${count.index}"
   resource_group_name             = "${var.prefix}-rg"
   location                        = var.location
   vm_size                         = "Standard_D2s_v3"
   network_interface_ids = [
-    azurerm_network_interface.main.id,
+    azurerm_network_interface.main[count.index].id,
   ]
 
   storage_image_reference {
@@ -134,7 +134,7 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
     create_option     = "FromImage"
     caching           = "ReadWrite"
-     name             = "myosdisk"
+     name             = "myosdisk${count.index}"
   }
 
   os_profile {
