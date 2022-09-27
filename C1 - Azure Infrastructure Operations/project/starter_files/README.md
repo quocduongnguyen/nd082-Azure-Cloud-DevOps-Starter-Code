@@ -46,7 +46,7 @@ For this project, you will write a Packer template and a Terraform template to d
 
 16. Run script "terraform apply" in CLI to init. This command executes the actions proposed in a Terraform plan.
 
-13. Run script "terraform destroy" in CLI to delete generated resources.
+17. Run script "terraform destroy" in CLI to delete generated resources.
 
 ### Output
 policyRules.json file
