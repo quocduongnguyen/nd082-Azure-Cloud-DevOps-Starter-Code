@@ -27,16 +27,27 @@ For this project, you will write a Packer template and a Terraform template to d
     (You can change "duongnq9-project1-devops" as the resource group name you want.
     You can change "centralus" as the location you want.)
 7. Open server.json file to write image information
-    7.1 Run "az account show --query "{ subscription_id: id }"" script in CLI to show subscription_id
-    7.2 Run script in CLI to create app registration and show client_id, client_secret, tenant_id: az ad sp create-for-rbac --role Contributor --name sp-packer --scopes /subscriptions/{subscription_id}/resourceGroups/ResourceGroupName --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"
+8. Run "az account show --query "{ subscription_id: id }"" script in CLI to show subscription_id
+9. Run script in CLI to create app registration and show client_id, client_secret, tenant_id: az ad sp create-for-rbac --role Contributor --name sp-packer --scopes /subscriptions/{subscription_id}/resourceGroups/ResourceGroupName --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"
         (Remember update subscription_id and of this script)
-    7.3 
-    image.png
-9. Update client_id, client_secret, tenant_id in file server.json and run script in CLI to create image: packer build server.json
-10. Create main.tf file contains resource information and variables.tf file contains variable. Update default values to changes values in variables.tf file, number of virtual machines should be at least 2, and no more than 5. Remember add requiretag tag to resource.
-11. Add resource as project requirement.
-12. Run script in CLI: terraform init, terraform plan -out solution.plan, terraform plan, terraform apply
-13. Run script in CLI to delete generated resources: terraform destroy
+10. Update the subscription_id, client_id, client_secret, tenant_id values in the variables section of the server.json file and save it.
+
+# Using Packer to build image from server.json file:
+11. Run script "packer build server.json" in CLI. Image name is value of "managed_image_name" in server.json. Image will be created in the resource group created in step 6.
+#
+
+12. Open main.tf file: This is main configuration file where we are going to define our resource definition. You can add the resources you want to create here. Remember add requiretag tag to resource.
+13. Openvariables.tf file: This is the file where we are going to define our variables. You can change the values of the variables if you want by changing the value of default. The values of the two variables prefix and centralus will be used for most resources and should be the same as the resource group information you created in step 6.
+
+# Using Terraform to create resources in the resource group created in step 6.
+14. Run script "terraform init" in CLI to init. This command performs several different initialization steps in order to prepare the current working directory for use with Terraform.
+
+15. Run script "terraform plan" in CLI to init. This command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure.
+
+16. Run script "terraform apply" in CLI to init. This command executes the actions proposed in a Terraform plan.
+
+13. Run script "terraform destroy" in CLI to delete generated resources.
+
 ### Output
 policyRules.json file
 server.json file

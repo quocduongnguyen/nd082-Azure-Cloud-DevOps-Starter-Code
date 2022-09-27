@@ -8,15 +8,27 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = "${var.prefix}-rg"
 
   security_rule {
-    name                       = "security_rule"
+    name                       = "DenyInbound"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Deny"
-    protocol                   = "Tcp"
+    protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    source_address_prefix      = "Internet"
+    destination_address_prefix = "VirtualNetwork"
+  }
+
+    security_rule {
+    name                       = "AllowVnet"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_address_prefix = "VirtualNetwork"
   }
 
   tags = {
