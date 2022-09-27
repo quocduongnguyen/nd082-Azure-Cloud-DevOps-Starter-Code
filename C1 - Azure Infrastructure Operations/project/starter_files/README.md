@@ -36,5 +36,5 @@ server.json file
 main.tf file
 variables.tf
 solution.plan file
-Generated resources
+Generated resources as project requirement in Azure
 
